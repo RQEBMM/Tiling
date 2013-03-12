@@ -48,8 +48,6 @@
 	
 	NSArray *columns = [NSArray arrayWithArray:[self enumeratePermutationsForWidth:widthUnits]];
 	
-	NSLog(@"count of columns: %lu",[columns count]);
-	NSLog(@"description of columns: %@", [columns description]);
 	return totalLegalPermutations;
 }
 
@@ -80,41 +78,49 @@
 	switch (widthInUnits)
 	{
 		case 2:
-			return [NSMutableArray arrayWithObject:[NSNumber numberWithInt:2]];
+			return [NSMutableArray arrayWithObject:[NSMutableArray arrayWithObject:[NSNumber numberWithInt:2]]];
 		case 3:
-			return [NSMutableArray arrayWithObject:[NSNumber numberWithInt:3]];
+			return [NSMutableArray arrayWithObject:[NSMutableArray arrayWithObject:[NSNumber numberWithInt:3]]];
 	}
 	
+	NSMutableArray *rowsForWidth = [[NSMutableArray alloc] init];
 	//for each row with width-2, get an array of its ordered contents
 	
-		NSMutableArray *rowsWith2 = [NSMutableArray arrayWithObject:[self enumeratePermutationsForWidth:(widthInUnits - 2)]];
-		//append a 2 to each
-		for (int y = 0; y < [rowsWith2 count]; y++)
+	NSMutableArray *rowsWithout2 = [NSMutableArray arrayWithObject:[self enumeratePermutationsForWidth:(widthInUnits - 2)]];
+	//append a 2 to each
+	NSMutableArray *rowsWith2 = [[NSMutableArray alloc] init];
+	for (NSMutableArray *column in rowsWithout2)
+	{
+		for (NSMutableArray *row in column)
 		{
-			NSMutableArray *row = [NSMutableArray arrayWithArray:[rowsWith2 objectAtIndex:y]];
-			[row addObject:[NSNumber numberWithInt:2]];		
-			[rowsWith2 replaceObjectAtIndex:y withObject:row];
+			[row addObject:[NSNumber numberWithInt:2]];
+			[rowsWith2 addObject:row];
 		}
-		//add those into our list
-		[self.possibleRows addObjectsFromArray:rowsWith2];
-	
+	}
+	//add those into our list
+	[rowsForWidth addObjectsFromArray:rowsWith2];
 	
 	//for each row with width-3, get an array with 3 appended
 	
-		NSMutableArray *rowsWith3 = [NSMutableArray arrayWithObject:[self enumeratePermutationsForWidth:(widthInUnits - 3)]];
-		//append a 3 to each
-		for (int b = 0; b < [rowsWith3 count]; b++)
+	NSMutableArray *rowsWithout3 = [NSMutableArray arrayWithObject:[self enumeratePermutationsForWidth:(widthInUnits - 3)]];
+	//append a 3 to each
+	NSMutableArray *rowsWith3 = [[NSMutableArray alloc]init];
+	for (NSMutableArray *column in rowsWithout3)
+	{
+		for (NSMutableArray *row in column)
 		{
-			NSMutableArray *row = [NSMutableArray arrayWithArray:[rowsWith3 objectAtIndex:b]];
-			[row addObject:[NSNumber numberWithInt:3]];
-			[rowsWith3 replaceObjectAtIndex:b withObject:row];
+		[row addObject:[NSNumber numberWithInt:3]];
+		[rowsWith3 addObject:row];
 		}
-		//add those into our list
-		[self.possibleRows addObjectsFromArray:rowsWith3];
+	}
+	//add those into our list
+	[rowsForWidth addObjectsFromArray:rowsWith3];
+	NSLog(@"Columns after rowsWith3 for width %i:%@",widthInUnits,rowsForWidth);
 	
-	NSLog(@"columns for width %i:%@",widthInUnits,[self.possibleRows description]);
+	////NSLog(@"columns for width %i:%@",widthInUnits,[self.possibleRows description]);
+	
 	//add all of those rows into one array
-	return self.possibleRows;
+	return rowsForWidth;
 }
 
 - (int) findLegalPairsForWidth:(int)widthInUnits
