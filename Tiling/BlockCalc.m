@@ -35,19 +35,36 @@
 {
 	int widthUnits = (self.width / 1.5);
 	int permutationsPerWidth = [self permutationsForWidth:widthUnits];
-	int legalPairsPerWidth = [self findLegalPairsForWidth:widthUnits];
 	
 	int64_t totalLegalPermutations;
+	int64_t totalPermutations;
 	if (self.height > 1)
 	{
-		//handles "legal" pairings. i.e. the hard part
-		totalLegalPermutations = (permutationsPerWidth * legalPairsPerWidth * (self.height - 1));
+		
+		NSMutableArray *permutationsForWidth = [self enumeratePermutationsForWidth:widthUnits];
+		//replace each array with its bitmask
+		for (int x = 0;x < [permutationsForWidth count];x++)
+		{
+			NSNumber *bitmask = [NSNumber numberWithLongLong:[self bitmaskRepresentationFor:[permutationsForWidth objectAtIndex:x]]];
+			[permutationsForWidth replaceObjectAtIndex:x withObject:bitmask];
+		}
+		for (int y = 0;y < [permutationsForWidth count];y++)
+		{
+			for (int z = 0;z < [permutationsForWidth count];z++)
+			{
+				
+			}
+		}
 	}
 	else
-		totalLegalPermutations = [self permutationsForWidth:widthUnits];
-	
+		totalLegalPermutations = [[self enumeratePermutationsForWidth:widthUnits] count];
+#ifdef DEBUG
 	NSArray *columns = [NSArray arrayWithArray:[self enumeratePermutationsForWidth:widthUnits]];
-	
+	for (NSArray *column in columns)
+	{
+		[self bitmaskRepresentationFor:column];
+	}
+#endif
 	return totalLegalPermutations;
 }
 
@@ -83,50 +100,71 @@
 			return [NSMutableArray arrayWithObject:[NSMutableArray arrayWithObject:[NSNumber numberWithInt:3]]];
 	}
 	
-	NSMutableArray *rowsForWidth = [[NSMutableArray alloc] init];
-	//for each row with width-2, get an array of its ordered contents
+	NSMutableArray *enumeratedPermutationsForWidth = [[NSMutableArray alloc] init];
 	
-	NSMutableArray *rowsWithout2 = [NSMutableArray arrayWithObject:[self enumeratePermutationsForWidth:(widthInUnits - 2)]];
+	//for each row with width-2, get an array of its ordered contents	
+	NSMutableArray *permutationsWithout2 = [NSMutableArray arrayWithObject:[self enumeratePermutationsForWidth:(widthInUnits - 2)]];
 	//append a 2 to each
-	NSMutableArray *rowsWith2 = [[NSMutableArray alloc] init];
-	for (NSMutableArray *column in rowsWithout2)
+	NSMutableArray *permutationsWith2 = [[NSMutableArray alloc] init];
+	for (NSMutableArray *column in permutationsWithout2)
 	{
 		for (NSMutableArray *row in column)
 		{
 			[row addObject:[NSNumber numberWithInt:2]];
-			[rowsWith2 addObject:row];
+			[permutationsWith2 addObject:row];
 		}
 	}
 	//add those into our list
-	[rowsForWidth addObjectsFromArray:rowsWith2];
+	[enumeratedPermutationsForWidth addObjectsFromArray:permutationsWith2];
 	
-	//for each row with width-3, get an array with 3 appended
+	//do the same for each row with width-3
 	
-	NSMutableArray *rowsWithout3 = [NSMutableArray arrayWithObject:[self enumeratePermutationsForWidth:(widthInUnits - 3)]];
+	NSMutableArray *permutationsWithout3 = [NSMutableArray arrayWithObject:[self enumeratePermutationsForWidth:(widthInUnits - 3)]];
 	//append a 3 to each
-	NSMutableArray *rowsWith3 = [[NSMutableArray alloc]init];
-	for (NSMutableArray *column in rowsWithout3)
+	NSMutableArray *permutationsWith3 = [[NSMutableArray alloc]init];
+	for (NSMutableArray *column in permutationsWithout3)
 	{
 		for (NSMutableArray *row in column)
 		{
 		[row addObject:[NSNumber numberWithInt:3]];
-		[rowsWith3 addObject:row];
+		[permutationsWith3 addObject:row];
 		}
 	}
 	//add those into our list
-	[rowsForWidth addObjectsFromArray:rowsWith3];
-	NSLog(@"Columns after rowsWith3 for width %i:%@",widthInUnits,rowsForWidth);
-	
+	[enumeratedPermutationsForWidth addObjectsFromArray:permutationsWith3];
+#ifdef DEBUG
+	NSLog(@"Columns after rowsWith3 for width %i:%@",widthInUnits,enumeratedPermutationsForWidth);
+#endif
 	////NSLog(@"columns for width %i:%@",widthInUnits,[self.possibleRows description]);
 	
-	//add all of those rows into one array
-	return rowsForWidth;
+	return enumeratedPermutationsForWidth;
 }
 
-- (int) findLegalPairsForWidth:(int)widthInUnits
+-(int64_t) bitmaskRepresentationFor:(NSArray *)permutation
 {
-	//TODO:find legal pairs for a given width
-	return 1;
+	int64_t bitmask = 1;	
+	for (NSNumber *block in permutation)
+	{
+		int blockVal = [block intValue];
+		bitmask = bitmask << blockVal;
+		bitmask++;
+	}
+#ifdef DEBUG
+	NSString *bitString = @"1";
+	NSString *appendString = @"";
+	for (NSNumber *block in permutation)
+	{
+		if ([block isEqualToNumber:[NSNumber numberWithInt:2]])
+			appendString = @"10";
+		else if ([block isEqualToNumber:[NSNumber numberWithInt:3]])
+			appendString = @"100";
+		
+		bitString = [NSString stringWithFormat:@"%@%@",appendString,bitString];
+	}
+	
+	NSLog(@"%@ = %@ = %llu",permutation,bitString,bitmask);
+#endif
+	return bitmask;
 }
 
 @end

@@ -10,9 +10,6 @@
 
 @implementation Row
 
--(int64_t) bitwiseRepresentation
-{
-	
-}
+
 
 @end

@@ -12,5 +12,6 @@
 
 @property int widthInUnits;
 
+-(Row *) bitmaskRepresentations;
 
 @end
