@@ -12,6 +12,7 @@
 
 @property int height;
 @property double width;
+@property int widthInUnits;
 
 + (BlockCalc *) wallWithWidth:(double)width andHeight:(int)height;
 

@@ -12,6 +12,7 @@
 
 @synthesize height;
 @synthesize width;
+@synthesize widthInUnits;
 
 -(id) initWithWidth:(double)newWidth andHeight:(int)newHeight
 {
@@ -19,6 +20,7 @@
 	{
 		self.height = newHeight;
 		self.width = newWidth;
+        self.widthInUnits = (newWidth /1.5);
 		return self;
 	}
 	return nil;
@@ -35,13 +37,12 @@
 //takes width and height in inches, returns total permutations
 - (int64_t) calcPermutations
 {
-	int widthUnits = (self.width / 1.5);
-	int permutationsPerWidth = [self permutationsForWidth:widthUnits];
+	int permutationsPerWidth = [self permutationsForWidth:self.widthInUnits];
 	
 	int64_t totalLegalPermutations;
 	if (self.height > 1)
 	{		
-		NSMutableArray *permutationsForWidth = [self enumeratePermutationsForWidth:widthUnits];
+		NSMutableArray *permutationsForWidth = [self enumeratePermutationsForWidth:self.widthInUnits];
 		//replace each row element of the array with its bitmask
 		for (int x = 0;x < [permutationsForWidth count];x++)
 		{
@@ -65,7 +66,7 @@
                     //so we log it in our array of legal pairs if it's not already there
                     int64_t bitwiseVal = rowToCompare & baseRow;
                     //should have two "edges" on either end, so define that bitmask
-                    int64_t bitwiseComp = pow(2,widthUnits)+1;
+                    int64_t bitwiseComp = pow(2,self.widthInUnits)+1;
                     if ((rowToCompare & baseRow) == bitwiseComp)
                     {
                         NSSet *pairing = [NSSet setWithObjects:[NSNumber numberWithInt:y],
@@ -86,9 +87,9 @@
     
     
     else
-        totalLegalPermutations = [[self enumeratePermutationsForWidth:widthUnits] count];
+        totalLegalPermutations = [[self enumeratePermutationsForWidth:self.widthInUnits] count];
 #ifdef DEBUG
-    NSArray *columns = [NSArray arrayWithArray:[self enumeratePermutationsForWidth:widthUnits]];
+    NSArray *columns = [NSArray arrayWithArray:[self enumeratePermutationsForWidth:self.widthInUnits]];
     for (NSArray *column in columns)
     {
         [self bitmaskRepresentationFor:column];
@@ -119,16 +120,19 @@
 {
     NSMutableArray *wallsToReturn = [[NSMutableArray alloc] init];
     //base case returns an array with each line option
+    //by taking unique portions of all legal pairs
     if (heightOfWall == 1)
     {
+        NSMutableSet *setOfUniqueRows = [[NSMutableSet alloc] init];
         for (NSSet *pair in legalPairs)
         {
-            for (NSNumber *wall in pair)
+            for (NSNumber *row in pair)
             {
-                [wallsToReturn addObject:[NSMutableArray arrayWithObject:wall]];
+                [setOfUniqueRows addObject:[NSMutableArray arrayWithObject:row]];
             }
         }
         
+            return [NSMutableArray arrayWithArray:[setOfUniqueRows allObjects]];                
     }
     else 
     {
@@ -156,7 +160,7 @@
                             [wallToAdd addObject:rowToAdd];
                             [wallsToReturn addObject:wallToAdd];
 #ifdef DEBUG
-                            NSLog(@"row being added:%@ from pair %@ to form wall:%@",rowToAdd,pair,wall);
+                            //NSLog(@"row being added:%@ from pair %@ to form wall:%@",rowToAdd,pair,wall);
 #endif
                             
                         }
@@ -166,7 +170,7 @@
         }  
     }
 #ifdef DEBUG
-    NSLog(@"%@",[wallsToReturn description]);
+    NSLog(@"%@ = %lu walls",[wallsToReturn description],[wallsToReturn count]);
 #endif
     
     
@@ -174,12 +178,12 @@
 }
 
 //enumerate permutations recursively
--(NSMutableArray *) enumeratePermutationsForWidth:(int)widthInUnits
+-(NSMutableArray *) enumeratePermutationsForWidth:(int)_widthInUnits
 {
     //base cases for recursive method
-    if (widthInUnits <= 1)
+    if (_widthInUnits <= 1)
         return [NSMutableArray arrayWithArray:nil];
-    switch (widthInUnits)
+    switch (_widthInUnits)
     {
         case 2:
             return [NSMutableArray arrayWithObject:[NSMutableArray arrayWithObject:[NSNumber numberWithInt:2]]];
@@ -190,7 +194,7 @@
     NSMutableArray *enumeratedPermutationsForWidth = [[NSMutableArray alloc] init];
     
     //for each row with width-2, get an array of its ordered contents	
-    NSMutableArray *permutationsWithout2 = [NSMutableArray arrayWithObject:[self enumeratePermutationsForWidth:(widthInUnits - 2)]];
+    NSMutableArray *permutationsWithout2 = [NSMutableArray arrayWithObject:[self enumeratePermutationsForWidth:(_widthInUnits - 2)]];
     //append a 2 to each
     NSMutableArray *permutationsWith2 = [[NSMutableArray alloc] init];
     for (NSMutableArray *column in permutationsWithout2)
@@ -206,7 +210,7 @@
     
     //do the same for each row with width-3
     
-    NSMutableArray *permutationsWithout3 = [NSMutableArray arrayWithObject:[self enumeratePermutationsForWidth:(widthInUnits - 3)]];
+    NSMutableArray *permutationsWithout3 = [NSMutableArray arrayWithObject:[self enumeratePermutationsForWidth:(_widthInUnits - 3)]];
     //append a 3 to each
     NSMutableArray *permutationsWith3 = [[NSMutableArray alloc]init];
     for (NSMutableArray *column in permutationsWithout3)
@@ -220,7 +224,7 @@
     //add those into our list
     [enumeratedPermutationsForWidth addObjectsFromArray:permutationsWith3];
 #ifdef DEBUG
-    NSLog(@"Columns after rowsWith3 for width %i:%@",widthInUnits,enumeratedPermutationsForWidth);
+    //NSLog(@"Columns after rowsWith3 for width %i:%@",widthInUnits,enumeratedPermutationsForWidth);
 #endif
     ////NSLog(@"columns for width %i:%@",widthInUnits,[self.possibleRows description]);
     
