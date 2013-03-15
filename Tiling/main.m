@@ -28,6 +28,7 @@ int main(int argc, const char * argv[])
 	    
 	    
 	}
+    pause();
     return 0;
 }
 

@@ -12,7 +12,6 @@
 
 @property int height;
 @property double width;
-@property NSMutableArray *possibleRows;
 
 + (BlockCalc *) wallWithWidth:(double)width andHeight:(int)height;
 
