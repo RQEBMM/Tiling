@@ -10,7 +10,6 @@
 #import "BlockIO.h"
 #import "BlockCalc.h"
 
-#define DEBUG = nil;
 #define TIMER = TRUE;
 
 int main(int argc, const char * argv[])
@@ -22,7 +21,7 @@ int main(int argc, const char * argv[])
 	    //take inputs
 		[BlockIO takeInput];
 		NSDate *endTime = [NSDate date];
-		NSLog(@"%.2f",[endTime timeIntervalSinceDate:startTime]);
+		printf("\n\nruntime = %.2fs",[endTime timeIntervalSinceDate:startTime]);
 #else
 		[BlockIO takeInput];
 #endif

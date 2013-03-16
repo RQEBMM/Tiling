@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Row : NSArray
+@interface Row : NSMutableArray
 
-
+-(int64_t) bitmaskRepresentation;
 
 @end

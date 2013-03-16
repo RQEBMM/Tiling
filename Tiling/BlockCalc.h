@@ -14,6 +14,10 @@
 @property double width;
 @property int widthInUnits;
 
+@property NSArray *possibleWalls;
+@property NSArray *possibleRows;
+@property int64_t bitwiseComparator;
+
 + (BlockCalc *) wallWithWidth:(double)width andHeight:(int)height;
 
 - (int64_t) calcPermutations;

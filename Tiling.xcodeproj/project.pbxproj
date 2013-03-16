@@ -14,6 +14,7 @@
 		C858273D16EE2E2E00134773 /* BlockIO.m in Sources */ = {isa = PBXBuildFile; fileRef = C858273C16EE2E2E00134773 /* BlockIO.m */; };
 		C8CFA0AA16F367A6000EF112 /* Timer.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CFA0A916F367A6000EF112 /* Timer.m */; };
 		C8CFA0B116F389BE000EF112 /* Row.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CFA0B016F389BE000EF112 /* Row.m */; };
+		FC9A397D16F4EA77004A6988 /* NSMutableArray+bitmaskRepresentationOfRow.m in Sources */ = {isa = PBXBuildFile; fileRef = FC9A397C16F4EA77004A6988 /* NSMutableArray+bitmaskRepresentationOfRow.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,6 +44,8 @@
 		C8CFA0A916F367A6000EF112 /* Timer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Timer.m; sourceTree = "<group>"; };
 		C8CFA0AF16F389BE000EF112 /* Row.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Row.h; sourceTree = "<group>"; };
 		C8CFA0B016F389BE000EF112 /* Row.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Row.m; sourceTree = "<group>"; };
+		FC9A397B16F4EA77004A6988 /* NSMutableArray+bitmaskRepresentationOfRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+bitmaskRepresentationOfRow.h"; sourceTree = "<group>"; };
+		FC9A397C16F4EA77004A6988 /* NSMutableArray+bitmaskRepresentationOfRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+bitmaskRepresentationOfRow.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +90,8 @@
 			children = (
 				C8CFA0AF16F389BE000EF112 /* Row.h */,
 				C8CFA0B016F389BE000EF112 /* Row.m */,
+				FC9A397B16F4EA77004A6988 /* NSMutableArray+bitmaskRepresentationOfRow.h */,
+				FC9A397C16F4EA77004A6988 /* NSMutableArray+bitmaskRepresentationOfRow.m */,
 				C858272D16EE24F800134773 /* main.m */,
 				C858273B16EE2E2E00134773 /* BlockIO.h */,
 				C858273C16EE2E2E00134773 /* BlockIO.m */,
@@ -164,6 +169,7 @@
 				C858273D16EE2E2E00134773 /* BlockIO.m in Sources */,
 				C8CFA0AA16F367A6000EF112 /* Timer.m in Sources */,
 				C8CFA0B116F389BE000EF112 /* Row.m in Sources */,
+				FC9A397D16F4EA77004A6988 /* NSMutableArray+bitmaskRepresentationOfRow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
