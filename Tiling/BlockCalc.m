@@ -50,6 +50,11 @@
 			NSNumber *bitmaskNumber = [NSNumber numberWithLongLong:bitmask];
 			[permutationsForWidth replaceObjectAtIndex:x withObject:bitmaskNumber];
 		}
+		
+		/*
+#ifdef DEBUG
+		NSLog(@"Building set of legal pairs...");
+#endif
         //find all legal pairs of rows
         NSMutableSet *legalPairings = [[NSMutableSet alloc] init];
 		for (int y = 0;y < [permutationsForWidth count];y++)
@@ -76,13 +81,14 @@
                 }
 			}
 		}
+		 */
 #ifdef DEBUG
         NSLog(@"%@",[legalPairings description]);
         NSLog(@"Legal pair count:%lu",[legalPairings count]);
 #endif
         //phew! So we now have a set of all legal pairings
         //TODO: build some walls!
-        totalLegalPermutations = [[self enumerateWallPermutationsGivenLegalPairs:legalPairings andHeight:self.height] count];         
+        totalLegalPermutations = [[self enumerateWallPermutationsGivenHeight:self.height] count];         
     }
     
     
@@ -99,9 +105,9 @@
 }
 
 //takes width in inches, and returns permutations recursively
-- (int) permutationsForWidth:(int)widthInUnits
+- (int) permutationsForWidth:(int)inputWidth
 {
-	switch (widthInUnits)
+	switch (inputWidth)
 	{
 		case 1:
 			return 0;
@@ -110,29 +116,25 @@
 		case 3:
 			return 1;
 	}
-	int	permutationsWithFirstBlockOf2 = [self permutationsForWidth:(widthInUnits - 2)];
-	int permutationsWithFirstBlockOf3 = [self permutationsForWidth:(widthInUnits - 3)];
+	int	permutationsWithFirstBlockOf2 = [self permutationsForWidth:(inputWidth - 2)];
+	int permutationsWithFirstBlockOf3 = [self permutationsForWidth:(inputWidth - 3)];
 	
 	return (permutationsWithFirstBlockOf2 + permutationsWithFirstBlockOf3);
 }
 
--(NSArray *) enumerateWallPermutationsGivenLegalPairs:(NSSet *)legalPairs andHeight:(int)heightOfWall
+-(NSArray *) enumerateWallPermutationsGivenHeight:(int)heightOfWall
 {
+#ifndef DEBUG
+	return nil;
+#endif
+	
+	
     NSMutableArray *wallsToReturn = [[NSMutableArray alloc] init];
     //base case returns an array with each line option
     //by taking unique portions of all legal pairs
     if (heightOfWall == 1)
-    {
-        NSMutableSet *setOfUniqueRows = [[NSMutableSet alloc] init];
-        for (NSSet *pair in legalPairs)
-        {
-            for (NSNumber *row in pair)
-            {
-                [setOfUniqueRows addObject:[NSMutableArray arrayWithObject:row]];
-            }
-        }
-        
-            return [NSMutableArray arrayWithArray:[setOfUniqueRows allObjects]];                
+    {        
+		return [[self enumerateWallPermutationsGivenHeight:1] bitMaskRepresentation];
     }
     else 
     {
@@ -231,31 +233,6 @@
     return enumeratedPermutationsForWidth;
 }
 
--(int64_t) bitmaskRepresentationFor:(NSArray *)permutation
-{
-    int64_t bitmask = 1;
-    for (NSNumber *block in permutation)
-    {
-        int blockVal = [block intValue];
-        bitmask = bitmask << blockVal;
-        bitmask++;
-    }
-#ifdef DEBUG
-    NSString *bitString = @"1";
-    NSString *appendString = @"";
-    for (NSNumber *block in permutation)
-    {
-        if ([block isEqualToNumber:[NSNumber numberWithInt:2]])
-            appendString = @"10";
-        else if ([block isEqualToNumber:[NSNumber numberWithInt:3]])
-            appendString = @"100";
-        
-        bitString = [NSString stringWithFormat:@"%@%@",appendString,bitString];
-    }
-    
-    NSLog(@"%@ = %@ = %llu",permutation,bitString,bitmask);
-#endif
-    return bitmask;
-}
+
 
 @end

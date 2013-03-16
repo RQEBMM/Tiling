@@ -12,7 +12,8 @@
 		C858273216EE24F800134773 /* Tiling.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C858273116EE24F800134773 /* Tiling.1 */; };
 		C858273A16EE27EE00134773 /* BlockCalc.m in Sources */ = {isa = PBXBuildFile; fileRef = C858273916EE27EE00134773 /* BlockCalc.m */; };
 		C858273D16EE2E2E00134773 /* BlockIO.m in Sources */ = {isa = PBXBuildFile; fileRef = C858273C16EE2E2E00134773 /* BlockIO.m */; };
-		C86B541F16EF8D7B0083C4A2 /* Row.m in Sources */ = {isa = PBXBuildFile; fileRef = C86B541E16EF8D7B0083C4A2 /* Row.m */; };
+		C8CFA0AA16F367A6000EF112 /* Timer.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CFA0A916F367A6000EF112 /* Timer.m */; };
+		C8CFA0B116F389BE000EF112 /* Row.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CFA0B016F389BE000EF112 /* Row.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -38,8 +39,10 @@
 		C858273916EE27EE00134773 /* BlockCalc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlockCalc.m; sourceTree = "<group>"; };
 		C858273B16EE2E2E00134773 /* BlockIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockIO.h; sourceTree = "<group>"; };
 		C858273C16EE2E2E00134773 /* BlockIO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlockIO.m; sourceTree = "<group>"; };
-		C86B541D16EF8D7B0083C4A2 /* Row.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Row.h; path = ../Row.h; sourceTree = "<group>"; };
-		C86B541E16EF8D7B0083C4A2 /* Row.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Row.m; path = ../Row.m; sourceTree = "<group>"; };
+		C8CFA0A816F367A6000EF112 /* Timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timer.h; sourceTree = "<group>"; };
+		C8CFA0A916F367A6000EF112 /* Timer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Timer.m; sourceTree = "<group>"; };
+		C8CFA0AF16F389BE000EF112 /* Row.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Row.h; sourceTree = "<group>"; };
+		C8CFA0B016F389BE000EF112 /* Row.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Row.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,13 +85,15 @@
 		C858272C16EE24F800134773 /* Tiling */ = {
 			isa = PBXGroup;
 			children = (
-				C86B541D16EF8D7B0083C4A2 /* Row.h */,
-				C86B541E16EF8D7B0083C4A2 /* Row.m */,
+				C8CFA0AF16F389BE000EF112 /* Row.h */,
+				C8CFA0B016F389BE000EF112 /* Row.m */,
 				C858272D16EE24F800134773 /* main.m */,
 				C858273B16EE2E2E00134773 /* BlockIO.h */,
 				C858273C16EE2E2E00134773 /* BlockIO.m */,
 				C858273816EE27EE00134773 /* BlockCalc.h */,
 				C858273916EE27EE00134773 /* BlockCalc.m */,
+				C8CFA0A816F367A6000EF112 /* Timer.h */,
+				C8CFA0A916F367A6000EF112 /* Timer.m */,
 				C858273116EE24F800134773 /* Tiling.1 */,
 				C858272F16EE24F800134773 /* Supporting Files */,
 			);
@@ -157,7 +162,8 @@
 				C858272E16EE24F800134773 /* main.m in Sources */,
 				C858273A16EE27EE00134773 /* BlockCalc.m in Sources */,
 				C858273D16EE2E2E00134773 /* BlockIO.m in Sources */,
-				C86B541F16EF8D7B0083C4A2 /* Row.m in Sources */,
+				C8CFA0AA16F367A6000EF112 /* Timer.m in Sources */,
+				C8CFA0B116F389BE000EF112 /* Row.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
